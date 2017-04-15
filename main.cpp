@@ -48,7 +48,7 @@ public:
     }
 };
 
-int distance(Coordonnee2d c1,Coordonnee2d c2)
+int distanceHex3D(Coordonnee2d c1,Coordonnee2d c2)
 {
     Coordonnee3d a = c1.get3DCoord();
     Coordonnee3d b = c2.get3DCoord();
@@ -193,7 +193,7 @@ int main()
                 cout << "MOVE " << player.getCoordDir().x << " " << player.getCoordDir().y << endl;
             else
             {
-                if(distance(player.getCoord(),player2.getCoord()) <= 10) // distance de tir (10 de memoire)
+                if(distanceHex3D(player.getCoord(),player2.getCoord()) <= 10) // distance de tir (10 de memoire)
                 {
                     cout << "FIRE " << player2.getCoord().x << " " << player2.getCoord().y << endl;
                 }
