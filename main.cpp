@@ -50,9 +50,9 @@ public:
 
 int distance(Coordonnee2d c1,Coordonnee2d c2)
 {
-  Coordonnee3d a = c1.get3DCoord();
-  Coordonnee3d b = c2.get3DCoord();
-  return (abs(a.x-b.x) + abs(a.y-b.y) + abs(a.z - b.z)) / 2;
+    Coordonnee3d a = c1.get3DCoord();
+    Coordonnee3d b = c2.get3DCoord();
+    return (abs(a.x-b.x) + abs(a.y-b.y) + abs(a.z - b.z)) / 2;
 }
 
 /*
@@ -79,40 +79,59 @@ public:
         a_largeur = 1;
     }
 
-    void setCoord(int x, int y){a_x = x;a_y = y;}
-    void setCoordDir(int x, int y){a_xDir = x;a_yDir = y;}
-    Coordonnee2d getCoord(){return Coordonnee2d(a_x,a_y);}
-    Coordonnee2d getCoordDir(){return Coordonnee2d(a_xDir,a_yDir);}
-    void setInfo(int rhum,int vitesse,int orientation){a_rhum = rhum;a_vitesse = vitesse;a_orientation=orientation;}
+    void setCoord(int x, int y)
+    {
+        a_x = x;
+        a_y = y;
+    }
+    void setCoordDir(int x, int y)
+    {
+        a_xDir = x;
+        a_yDir = y;
+    }
+    Coordonnee2d getCoord()
+    {
+        return Coordonnee2d(a_x,a_y);
+    }
+    Coordonnee2d getCoordDir()
+    {
+        return Coordonnee2d(a_xDir,a_yDir);
+    }
+    void setInfo(int rhum,int vitesse,int orientation)
+    {
+        a_rhum = rhum;
+        a_vitesse = vitesse;
+        a_orientation=orientation;
+    }
 };
 
 class Barrels
 {
-  Coordonnee2d c[26];
-  int taille[26];
-  int nbBarrel;
+    Coordonnee2d c[26];
+    int taille[26];
+    int nbBarrel;
 public:
-  Barrels()
-  {
-      nbBarrel = 0;
-  }
+    Barrels()
+    {
+        nbBarrel = 0;
+    }
 
-  void add(int x,int y,int taille)
-  {
-    nbBarrel++;
-    c[nbBarrel-1].x = x;
-    c[nbBarrel-1].y = y;
-  }
+    void add(int x,int y,int taille)
+    {
+        nbBarrel++;
+        c[nbBarrel-1].x = x;
+        c[nbBarrel-1].y = y;
+    }
 
-  void reset()
-  {
-    nbBarrel = 0;
-  }
+    void reset()
+    {
+        nbBarrel = 0;
+    }
 
-  int getNbBarrel()
-  {
-    return nbBarrel;
-  }
+    int getNbBarrel()
+    {
+        return nbBarrel;
+    }
 };
 
 using namespace std;
@@ -150,40 +169,40 @@ int main()
 
             if(entityType == "SHIP")
             {
-              if(arg4 == 1)
-              {
-                player.setCoord(x,y);
-                player.setInfo(arg3,arg2,arg1);
-              }
-              else
-              {
-                player2.setCoord(x,y);
-                player2.setInfo(arg3,arg2,arg1);
-              }
+                if(arg4 == 1)
+                {
+                    player.setCoord(x,y);
+                    player.setInfo(arg3,arg2,arg1);
+                }
+                else
+                {
+                    player2.setCoord(x,y);
+                    player2.setInfo(arg3,arg2,arg1);
+                }
             }
 
             if(entityType == "BARREL")
             {
-              bar.add(x,y,arg1);
+                bar.add(x,y,arg1);
             }
         }
 
         for (int i = 0; i < myShipCount; i++)
         {
-          if(bar.getNbBarrel() > 0)
-            cout << "MOVE " << player.getCoordDir().x << " " << player.getCoordDir().y << endl;
-          else
-          {
-            if(distance(player.getCoord(),player2.getCoord()) <= 10) // distance de tir (10 de memoire)
-            {
-                cout << "FIRE " << player2.getCoord().x << " " << player2.getCoord().y << endl;
-            }
+            if(bar.getNbBarrel() > 0)
+                cout << "MOVE " << player.getCoordDir().x << " " << player.getCoordDir().y << endl;
             else
             {
-                // deplacement vers l'autre joueur
-                cout << "MOVE " << player2.getCoord().x << " " << player2.getCoord().y << endl;
+                if(distance(player.getCoord(),player2.getCoord()) <= 10) // distance de tir (10 de memoire)
+                {
+                    cout << "FIRE " << player2.getCoord().x << " " << player2.getCoord().y << endl;
+                }
+                else
+                {
+                    // deplacement vers l'autre joueur
+                    cout << "MOVE " << player2.getCoord().x << " " << player2.getCoord().y << endl;
+                }
             }
-          }
         }
     }
 }
