@@ -122,10 +122,13 @@ int main()
     Ship player;
     Ship player2;
 
+    Barrels bar;
+
     // game loop
     while (1)
     {
         player.setCoordDir(999,999);
+        bar.reset();
 
         int myShipCount; // the number of remaining ships
         cin >> myShipCount;
@@ -145,31 +148,42 @@ int main()
             cin >> entityId >> entityType >> x >> y >> arg1 >> arg2 >> arg3 >> arg4;
             cin.ignore();
 
-            if(entityType == "SHIP" && arg4 == 1)
+            if(entityType == "SHIP")
             {
+              if(arg4 == 1)
+              {
                 player.setCoord(x,y);
                 player.setInfo(arg3,arg2,arg1);
-            }
-
-            if(entityType == "SHIP" && arg4 == 0)
-            {
+              }
+              else
+              {
                 player2.setCoord(x,y);
                 player2.setInfo(arg3,arg2,arg1);
+              }
             }
-
 
             if(entityType == "BARREL")
             {
-                if(distance(player.getCoord(),Coordonnee2d(x,y))<distance(player.getCoord(),player.getCoordDir()))
-                {
-                  player.setCoordDir(x,y);
-                }
+              bar.add(x,y,arg1);
             }
         }
 
         for (int i = 0; i < myShipCount; i++)
         {
+          if(bar.getNbBarrel() > 0)
             cout << "MOVE " << player.getCoordDir().x << " " << player.getCoordDir().y << endl;
+          else
+          {
+            if(distance(player.getCoord(),player2.getCoord()) <= 10) // distance de tir (10 de memoire)
+            {
+                cout << "FIRE " << player2.getCoord().x << " " << player2.getCoord().y << endl;
+            }
+            else
+            {
+                // deplacement vers l'autre joueur
+                cout << "MOVE " << player2.getCoord().x << " " << player2.getCoord().y << endl;
+            }
+          }
         }
     }
 }
